@@ -8,6 +8,8 @@ for (let i= 0; i < 11; i++) {
     for (let j = 0; j < 11; j++) {
         const blockDiv = document.createElement("div");
         blockDiv.classList.add("block");
+        blockDiv.addEventListener("mouseover", (e) => e.target.style.backgroundColor = "green");
+        blockDiv.addEventListener("mouseout", (e) => e.target.style = null);
         mainDiv.append(blockDiv);
 
         if ((i === 0) || (j === 0)){
@@ -25,6 +27,5 @@ for (let i= 0; i < 11; i++) {
         // blockDiv.textContent = `${i} / ${j}`;
     }
 }
-
 
 
