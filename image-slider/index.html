@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            width: 100vw;
+            background-color: #fad575;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body>
+</body>
+<script type="module">
+    import ImageSlider from "./slider/ImageSlider.js";
+
+    const imageSlider = new ImageSlider(document.body, 5, 2, 2);
+    const imgSet1 = ["./images/7.jpg", "./images/1.jfif", "./images/2.jfif", "./images/3.jfif", "./images/4.jfif", "./images/5.jfif", "./images/6.jfif"];
+    imageSlider.loadImages(imgSet1);
+</script>
+</html>
