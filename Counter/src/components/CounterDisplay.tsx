@@ -1,12 +1,20 @@
-interface CounterDisplayProps {
+type CounterDisplayProps = {
     displayValue: number,
-    maxValue: number
+    maxValue: number,
+    inputFlag: boolean,
+    displayAlert: string,
 }
 
-export const CounterDisplay = ({displayValue, maxValue}: CounterDisplayProps) => {
+export const CounterDisplay = ({
+                                   displayValue,
+                                   maxValue,
+                                   inputFlag,
+                                   displayAlert,
+                               }: CounterDisplayProps) => {
+
     return (
         <div className={"counter-display"}>
-            <p className={displayValue === maxValue ? "maxValue" : "displayValue"}>{displayValue}</p>
+            <p className={displayValue === maxValue ? "maxValue" : "displayValue"}>{inputFlag ? displayAlert : displayValue}</p>
         </div>
     )
 }
