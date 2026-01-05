@@ -1,59 +1,50 @@
-import { KeyboardEvent, ChangeEvent, useState } from "react"
-import AddBoxIcon from '@mui/icons-material/AddBox';
-import { Box, IconButton, TextField } from "@mui/material";
+import {type ChangeEvent, type KeyboardEvent, useState} from 'react'
+import TextField from '@mui/material/TextField'
+import AddBoxIcon from '@mui/icons-material/AddBox'
+import IconButton from '@mui/material/IconButton'
 
 type Props = {
-    createItem: (title: string) => void
-    maxTitleLength: number
+  onCreateItem: (title: string) => void
 }
 
-export const CreateItemForm = ({ createItem, maxTitleLength }: Props) => {
-    const [itemInput, setItemInput] = useState("")
-    const [error, setError] = useState(false)
+export const CreateItemForm = ({ onCreateItem }: Props) => {
+  const [title, setTitle] = useState('')
+  const [error, setError] = useState<string | null>(null)
 
-    const createItemHandler = () => {
-        const trimmedTitle = itemInput.trim()
-        if (trimmedTitle) {
-            createItem(trimmedTitle)
-        } else (
-            setError(true)
-        )
-        setItemInput("")
+  const createItemHandler = () => {
+    const trimmedTitle = title.trim()
+    if (trimmedTitle !== '') {
+      onCreateItem(trimmedTitle)
+      setTitle('')
+    } else {
+      setError('Title is required')
     }
-    const onChangeSetItemInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        error && setError(false)
-        if (e.currentTarget.value.length <= maxTitleLength)
-            setItemInput(e.currentTarget.value)
-    }
-    const onkeyDownCreateItemHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === "Enter") {
-            createItemHandler()
-        }
-    }
+  }
 
-    const isItemTitleNotValid = itemInput.length === 0 || itemInput.length > maxTitleLength
-    const isTitleLengthValid = itemInput && itemInput.length === (maxTitleLength)
+  const changeTitleHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.currentTarget.value)
+    setError(null)
+  }
 
-    return (
-        <Box>
-            <TextField
-                variant="outlined"
-                size="small"
-                placeholder={`max length must be ${maxTitleLength} charters`}
-                value={itemInput}
-                error={error}
-                onChange={onChangeSetItemInputHandler}
-                onKeyDown={onkeyDownCreateItemHandler}
-                helperText={error && "enter valid title"}
-            />
-            <IconButton
-                
-                disabled={isItemTitleNotValid}
-                onClick={createItemHandler}
-            >
-                <AddBoxIcon />
-            </IconButton>
-            {isTitleLengthValid && <div style={{ color: "red" }}>max length must be {maxTitleLength} charters</div>}
-        </Box>
-    )
+  const createItemOnEnterHandler = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      createItemHandler()
+    }
+  }
+
+  return (
+      <div>
+        <TextField label={'Enter a title'}
+                   variant={'outlined'}
+                   value={title}
+                   size={'small'}
+                   error={!!error}
+                   helperText={error}
+                   onChange={changeTitleHandler}
+                   onKeyDown={createItemOnEnterHandler}/>
+        <IconButton onClick={createItemHandler} color={'primary'}>
+          <AddBoxIcon />
+        </IconButton>
+      </div>
+  )
 }
